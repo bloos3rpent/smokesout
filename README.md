@@ -7,17 +7,12 @@ Smokesout is a DOS tool developed by bloos3rpent of Anonyous Caloocan Ground and
 ```bash
 git clone https://github.com/bloos3rpent/smokesout
 cd smokesout
-python3 smokesout.py
 ```
 
 ## Usage
 
 ```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+python3 smokesout.py
 ```
 
 ## Contributing
