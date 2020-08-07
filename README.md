@@ -1,6 +1,6 @@
 # Smokesout
 
-Smokesout is a DOS tool developed by bloos3rpent of Anonyous Caloocan Ground and Cyber Unit. This tool is still underdevelopment
+Smokesout is a DOS tool developed by bloos3rpent of Anonymous Caloocan Ground and Cyber Unit. This tool is still underdevelopment
 
 ## Installation
 
