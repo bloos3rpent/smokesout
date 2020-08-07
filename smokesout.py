@@ -57,7 +57,8 @@ def main():
                     already_connected += 1
                     packetssent = str(already_connected)
 
-                    print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
+                    if already_connected % 200 == 0:
+                        print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
                 except:
                     print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
 
