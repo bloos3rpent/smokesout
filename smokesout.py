@@ -61,7 +61,7 @@ def main():
                 except:
                     print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
 
-        for i in range(5000):
+        for i in range(500):
             thread = threading.Thread(target=attack)
             thread.start()
 
