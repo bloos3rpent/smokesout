@@ -207,7 +207,7 @@ def main():
     [1] crackstation.net {bcolors.OKGREEN}(RECOMMENDED){bcolors.ENDC}{bcolors.OKBLUE}
     [2] md5online.org
     [3] md5decrypt.net
-    [4] dcode.fr
+    [4] hashtoolkit.com
     [5] hashes.com
 
 ----Redirection to sites don't work in Termux----
@@ -216,15 +216,15 @@ def main():
                 def askd():
                     dec_opt = input("Choose site > ")
                     if dec_opt == "1":
-                        webbrowser.open("crackstation.net")
+                        webbrowser.open("https://crackstation.net/")
                     if dec_opt == "2":
-                        webbrowser.open("md5online.org")
+                        webbrowser.open("https://www.md5online.org/")
                     if dec_opt == "3":
-                        webbrowser.open("md5decrypt.net")
+                        webbrowser.open("https://md5decrypt.net/")
                     if dec_opt == "4":
-                        webbrowser.open("dcode.fr")
+                        webbrowser.open("https://hashtoolkit.com/")
                     if dec_opt == "5":
-                        webbrowser.open("hashes.com")
+                        webbrowser.open("https://hashes.com/en/decrypt/hash")
                     if dec_opt == "99":
                         clear()
                         decode()
