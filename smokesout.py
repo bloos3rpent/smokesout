@@ -47,7 +47,7 @@ def main():
     [3] Encode/Encrypt
     [4] Decode/Decrypt
     
-    [99] Exit
+    {bcolors.FAIL}[99] Exit
     {bcolors.ENDC}""")
 
     def ddos():
@@ -101,15 +101,15 @@ def main():
 
     def encrypt():
         clear()
-        print("""
+        print(f"""{bcolors.OKBLUE}
     [1] MD5 Hash
     [2] SHA-256
     [3] 0xHex
     [4] 0bBinary
     [5] Base64
     
-    [99] Go Back
-        """)
+    {bcolors.FAIL}[99] Go Back
+        {bcolors.ENDC}""")
         def ask():
             cipher = input(f"{bcolors.FAIL}Smokesout > {bcolors.ENDC}")
             if cipher == "1": #MD5 HASH
@@ -183,26 +183,27 @@ def main():
 
     def decode():
         clear()
-        print("""
+        print(f"""{bcolors.OKBLUE}
+
     [1] Decrypt Hash
     [2] 0xHex  Decode
     [3] 0bBinary Decode
     [4] Base64  Decode
     
-    [99] Back
-        """)
+    {bcolors.FAIL}[99] Back
+        {bcolors.ENDC}""")
         d_option = input("Encryption to Decrypt/Decode > ")
         if d_option == "1":
             clear()
-            print(f"""
-    [1] crackstation.net {bcolors.OKGREEN}(RECOMMENDED){bcolors.ENDC}
+            print(f"""{bcolors.OKBLUE}
+    [1] crackstation.net {bcolors.OKGREEN}(RECOMMENDED){bcolors.ENDC}{bcolors.OKBLUE}
     [2] md5online.org
     [3] md5decrypt.net
     [4] dcode.fr
     [5] hashes.com
 
-    [99] Back
-            """)
+    {bcolors.FAIL}[99] Back
+            {bcolors.ENDC}""")
             def askd():
                 dec_opt = input("Choose site > ")
                 if dec_opt == "1":
