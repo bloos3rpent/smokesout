@@ -6,6 +6,8 @@ from urllib.error import HTTPError
 import hashlib
 import webbrowser
 import base64
+import re
+from os import system, name
 
 class bcolors:
     HEADER = '\033[95m'
@@ -17,24 +19,33 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-print(f"""{bcolors.FAIL}
+
+already_connected = 0
+
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+
+        # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
+def main():
+    print(f"""{bcolors.FAIL}
 
  ______  __    __  ______  __  __  ______  ______  ______  __  __  ______  
 /\  ___\/\ "-./  \/\  __ \/\ \/ / /\  ___\/\  ___\/\  __ \/\ \/\ \/\__  _\ 
 \ \___  \ \ \-./\ \ \ \/\ \ \  _"-\ \  __ \\ \___  \ \ \/\ \ \ \_\ \/_/\ \/ 
  \/\_____\ \_\ \ \_\ \_____\ \_\ \_\ \_____\/\_____\ \_____\ \_____\ \ \_\ 
   \/_____/\/_/  \/_/\/_____/\/_/\/_/\/_____/\/_____/\/_____/\/_____/  \/_/                                                                     
- {bcolors.ENDC}""") #logo
-print("""   Beta Version        |       Developed by bloos3rpent
-
-""")
-
-already_connected = 0
-def main():
+     {bcolors.ENDC}""")  # logo
+    print("        Beta Version        |       Developed by bloos3rpent")
     print(f"""{bcolors.OKBLUE}
     [1] Attack Website
     [2] Check Website Status
-    [3] Encrypt String
+    [3] Encode/Encrypt
+    [4] Decode/Decrypt
     
     [99] Exit
     {bcolors.ENDC}""")
@@ -66,8 +77,6 @@ def main():
 
                     if already_connected % verbose == 0:
                         print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
-                except (KeyboardInterrupt, SystemExit):
-                    main()
                 except:
                     print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
 
@@ -91,14 +100,15 @@ def main():
         main()
 
     def encrypt():
+        clear()
         print("""
-        [1] MD5 Hash
-        [2] SHA-256
-        [3] 0xHex
-        [4] Binary
-        [5] Base64
-        
-        [99] Go Back
+    [1] MD5 Hash
+    [2] SHA-256
+    [3] 0xHex
+    [4] 0bBinary
+    [5] Base64
+    
+    [99] Go Back
         """)
         def ask():
             cipher = input(f"{bcolors.FAIL}Smokesout > {bcolors.ENDC}")
@@ -110,6 +120,7 @@ def main():
                 if a.lower() == "y":
                     encrypt()
                 else:
+                    clear()
                     main()
                 encrypt()
             elif cipher == "2": #SHA-256
@@ -120,6 +131,7 @@ def main():
                 if a.lower() == "y":
                     encrypt()
                 else:
+                    clear()
                     main()
                 encrypt()
             elif cipher == "3":
@@ -130,15 +142,22 @@ def main():
                 if a.lower() == "y":
                     encrypt()
                 else:
+                    clear()
                     main()
                 encrypt()
             elif cipher == "4":
                 string = input(f"{bcolors.OKGREEN}Enter String to Encode > {bcolors.ENDC}")
-                print("Binary Encoded > " + ' '.join(format(ord(x), 'b') for x in string))
+                byte_array = string.encode()
+
+                binary_int = int.from_bytes(byte_array, "big")
+                binary_string = bin(binary_int)
+
+                print(binary_string)
                 a = input("Encrypt another? (y/n) > ")
                 if a.lower() == "y":
                     encrypt()
                 else:
+                    clear()
                     main()
                 encrypt()
             elif cipher == "5":
@@ -147,18 +166,105 @@ def main():
                 base64_bytes = base64.b64encode(message_bytes)
                 base64_message = base64_bytes.decode('ascii')
 
-                print("Bse64 Encoded > " + base64_message)
+                print("Base64 Encoded > " + base64_message)
                 a = input("Encrypt another? (y/n) > ")
                 if a.lower() == "y":
                     encrypt()
                 else:
+                    clear()
                     main()
                 encrypt()
             elif cipher == "99":
+                clear()
                 main()
             else:
                 ask()
         ask()
+
+    def decode():
+        clear()
+        print("""
+    [1] Decrypt Hash
+    [2] 0xHex  Decode
+    [3] 0bBinary Decode
+    [4] Base64  Decode
+    
+    [99] Back
+        """)
+        d_option = input("Encryption to Decrypt/Decode > ")
+        if d_option == "1":
+            clear()
+            print(f"""
+    [1] crackstation.net {bcolors.OKGREEN}(RECOMMENDED){bcolors.ENDC}
+    [2] md5online.org
+    [3] md5decrypt.net
+    [4] dcode.fr
+    [5] hashes.com
+
+    [99] Back
+            """)
+            def askd():
+                dec_opt = input("Choose site > ")
+                if dec_opt == "1":
+                    webbrowser.open("crackstation.net")
+                if dec_opt == "2":
+                    webbrowser.open("md5online.org")
+                if dec_opt == "3":
+                    webbrowser.open("md5decrypt.net")
+                if dec_opt == "4":
+                    webbrowser.open("dcode.fr")
+                if dec_opt == "5":
+                    webbrowser.open("hashes.com")
+                if dec_opt == "99":
+                    clear()
+                    decode()
+                else:
+                    askd()
+            askd()
+        elif d_option == "2":
+            string = input("Translate from 0xHex Format > ")
+            line = re.sub('[0x]', '', string)
+            hexForm = bytearray.fromhex(line).decode()
+            print("0xHex Decoded > " + hexForm)
+            a = input("Decrypt Another? (y/n) > ")
+            if a.lower() == "y":
+                decode()
+            else:
+                clear()
+                main()
+        elif d_option == "3":
+            string = input("0bBINARY format to decode > ")
+            binaryform = string[2:]
+            binary_int = int(binaryform, 2)
+            byte_number = binary_int.bit_length() + 7 // 8
+
+            binary_array = binary_int.to_bytes(byte_number, "big")
+            ascii_text = binary_array.decode()
+
+            print("Decoded 0bBinary code > " + ascii_text)
+
+            a = input("Decrypt Another? (y/n) > ")
+            if a.lower() == "y":
+                decode()
+            else:
+                clear()
+                main()
+        elif d_option == "4":
+            base64_message = input("Base64 code to decode > ")
+            base64_bytes = base64_message.encode('ascii')
+            message_bytes = base64.b64decode(base64_bytes)
+            message = message_bytes.decode('ascii')
+
+            print("Base64 decoded > " + message)
+        elif d_option == "99":
+            main()
+        a = input("Decrypt Another? (y/n) > ")
+        if a.lower() == "y":
+            clear()
+            decode()
+        else:
+            clear()
+            main()
 
     def mainask():
         action = input(f"{bcolors.FAIL}Smokesout > {bcolors.ENDC}")
@@ -168,6 +274,8 @@ def main():
             ping()
         elif action == "3":
             encrypt()
+        elif action == "4":
+            decode()
         elif action == "99":
             confirm = input("Do you want to exit? y/n: ")
             if confirm.lower() == "y":
