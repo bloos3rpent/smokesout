@@ -88,7 +88,6 @@ def main():
     def ping():
         site = input("Check site status: ")
         print("Checking Status: " + site)
-        time.sleep(1)
 
         try:
             status = urllib.request.urlopen("http://" + site).getcode()
@@ -98,6 +97,7 @@ def main():
         except:
             print("error")
 
+        time.sleep(3)
         main()
 
     def encrypt():
@@ -209,9 +209,10 @@ def main():
     [3] md5decrypt.net
     [4] hashtoolkit.com
     [5] hashes.com
-
+    {bcolors.FAIL}
+    [99] Back{bcolors.OKGREEN}
+                
 ----Redirection to sites don't work in Termux----
-        {bcolors.FAIL}[99] Back
                 {bcolors.ENDC}""")
                 def askd():
                     dec_opt = input("Choose site > ")
@@ -232,16 +233,22 @@ def main():
                         askd()
                 askd()
             elif d_option == "2":
-                string = input("Translate from 0xHex Format > ")
-                line = re.sub('[0x]', '', string)
-                hexForm = bytearray.fromhex(line).decode()
-                print(f"{bcolors.FAIL}0xHex Decoded > {bcolors.ENDC}{bcolors.OKGREEN}%s{bcolors.ENDC}" % (hexForm))
-                a = input("Decrypt Another? (y/n) > ")
-                if a.lower() == "y":
-                    decode()
-                else:
+                try:
+                    string = input("Translate from 0xHex Format > ")
+                    line = re.sub('[0x]', '', string)
+                    hexForm = bytearray.fromhex(line).decode()
+                    print(f"{bcolors.FAIL}0xHex Decoded > {bcolors.ENDC}{bcolors.OKGREEN}%s{bcolors.ENDC}" % (hexForm))
+                    a = input("Decrypt Another? (y/n) > ")
+                    if a.lower() == "y":
+                        decode()
+                    else:
+                        clear()
+                        main()
+                except:
+                    print(f"{bcolors.WARNING}Unable to Read{bcolors.ENDC}")
+                    time.sleep(2)
                     clear()
-                    main()
+                    decode()
             elif d_option == "3":
                 try:
                     string = input("0bBINARY format to decode > ")
@@ -261,17 +268,23 @@ def main():
                         clear()
                         main()
                 except:
-                    print(f"{bcolors.WARNING}Error{bcolors.ENDC}")
+                    print(f"{bcolors.WARNING}Unable to Read{bcolors.ENDC}")
                     time.sleep(2)
                     clear()
                     decode()
             elif d_option == "4":
-                base64_message = input("Base64 code to decode > ")
-                base64_bytes = base64_message.encode('ascii')
-                message_bytes = base64.b64decode(base64_bytes)
-                message = message_bytes.decode('ascii')
+                try:
+                    base64_message = input("Base64 code to decode > ")
+                    base64_bytes = base64_message.encode('ascii')
+                    message_bytes = base64.b64decode(base64_bytes)
+                    message = message_bytes.decode('ascii')
 
-                print(f"{bcolors.FAIL}Base64 decoded > {bcolors.OKGREEN}%s{bcolors.ENDC}" % (message))
+                    print(f"{bcolors.FAIL}Base64 decoded > {bcolors.OKGREEN}%s{bcolors.ENDC}" % (message))
+                except:
+                    print(f"{bcolors.WARNING}Unable to Read{bcolors.ENDC}")
+                    time.sleep(2)
+                    clear()
+                    decode()
             elif d_option == "99":
                 clear()
                 main()
@@ -300,6 +313,7 @@ def main():
         elif action == "99":
             confirm = input("Do you want to exit? y/n: ")
             if confirm.lower() == "y":
+                clear()
                 exit()
             else:
                 main()
