@@ -32,6 +32,7 @@ def clear():
     else:
         _ = system('clear')
 def main():
+    clear()
     print(f"""{bcolors.FAIL}
    _____                 _                         _   
   / ____|               | |                       | |  
