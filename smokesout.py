@@ -3,6 +3,9 @@ import socket
 import time
 import urllib.request
 from urllib.error import HTTPError
+import hashlib
+import webbrowser
+import base64
 
 class bcolors:
     HEADER = '\033[95m'
@@ -18,11 +21,11 @@ print(f"""{bcolors.FAIL}
 
  ______  __    __  ______  __  __  ______  ______  ______  __  __  ______  
 /\  ___\/\ "-./  \/\  __ \/\ \/ / /\  ___\/\  ___\/\  __ \/\ \/\ \/\__  _\ 
-\ \___  \ \ \-./\ \ \ \/\ \ \  _"-\ \  __\\ \___  \ \ \/\ \ \ \_\ \/_/\ \/ 
+\ \___  \ \ \-./\ \ \ \/\ \ \  _"-\ \  __ \\ \___  \ \ \/\ \ \ \_\ \/_/\ \/ 
  \/\_____\ \_\ \ \_\ \_____\ \_\ \_\ \_____\/\_____\ \_____\ \_____\ \ \_\ 
   \/_____/\/_/  \/_/\/_____/\/_/\/_/\/_____/\/_____/\/_____/\/_____/  \/_/                                                                     
  {bcolors.ENDC}""") #logo
-print("""   Developed by bloos3rpent of Anonymous Caloocan Ground and Cyber Unit
+print("""   Beta Version        |       Developed by bloos3rpent
 
 """)
 
@@ -31,7 +34,9 @@ def main():
     print(f"""{bcolors.OKBLUE}
     [1] Attack Website
     [2] Check Website Status
-    [3] Exit
+    [3] Encrypt String
+    
+    [99] Exit
     {bcolors.ENDC}""")
 
     def ddos():
@@ -61,6 +66,8 @@ def main():
 
                     if already_connected % verbose == 0:
                         print(f"{bcolors.OKGREEN}packets sent: {bcolors.ENDC}" + packetssent)
+                except (KeyboardInterrupt, SystemExit):
+                    main()
                 except:
                     print(f"{bcolors.FAIL}Connection Timeout server might be already down or check your internet connection{bcolors.ENDC}")
 
@@ -83,19 +90,91 @@ def main():
 
         main()
 
-    action = input(": ")
-    if action == "1":
-        ddos()
-    elif action == "2":
-        ping()
-    elif action == "3":
-        confirm = input("Do you want to exit? y/n: ")
-        if confirm.lower() == "y":
-            exit()
+    def encrypt():
+        print("""
+        [1] MD5 Hash
+        [2] SHA-256
+        [3] 0xHex
+        [4] Binary
+        [5] Base64
+        
+        [99] Go Back
+        """)
+        def ask():
+            cipher = input(f"{bcolors.FAIL}Smokesout > {bcolors.ENDC}")
+            if cipher == "1": #MD5 HASH
+                string = input(f"{bcolors.OKGREEN}Enter String to Hash > {bcolors.ENDC}")
+                hash_obj = hashlib.md5(string.encode())
+                print("MD5 Encrypted > " + hash_obj.hexdigest())
+                a = input("Encrypt another? (y/n) > ")
+                if a.lower() == "y":
+                    encrypt()
+                else:
+                    main()
+                encrypt()
+            elif cipher == "2": #SHA-256
+                string = input(f"{bcolors.OKGREEN}Enter String to Hash > {bcolors.ENDC}")
+                hash_obj = hashlib.sha256(string.encode())
+                print("SHA-256 Encrypted > " + hash_obj.hexdigest())
+                a = input("Encrypt another? (y/n) > ")
+                if a.lower() == "y":
+                    encrypt()
+                else:
+                    main()
+                encrypt()
+            elif cipher == "3":
+                string = input(f"{bcolors.OKGREEN}Enter String to Encode > {bcolors.ENDC}")
+                s = string.encode('utf-8')
+                print("0xHex Encoded > " + "0x" + s.hex())
+                a = input("Encrypt another? (y/n) > ")
+                if a.lower() == "y":
+                    encrypt()
+                else:
+                    main()
+                encrypt()
+            elif cipher == "4":
+                string = input(f"{bcolors.OKGREEN}Enter String to Encode > {bcolors.ENDC}")
+                print("Binary Encoded > " + ' '.join(format(ord(x), 'b') for x in string))
+                a = input("Encrypt another? (y/n) > ")
+                if a.lower() == "y":
+                    encrypt()
+                else:
+                    main()
+                encrypt()
+            elif cipher == "5":
+                message = input(f"{bcolors.OKGREEN}Enter String to Encode > {bcolors.ENDC}")
+                message_bytes = message.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+
+                print("Bse64 Encoded > " + base64_message)
+                a = input("Encrypt another? (y/n) > ")
+                if a.lower() == "y":
+                    encrypt()
+                else:
+                    main()
+                encrypt()
+            elif cipher == "99":
+                main()
+            else:
+                ask()
+        ask()
+
+    def mainask():
+        action = input(f"{bcolors.FAIL}Smokesout > {bcolors.ENDC}")
+        if action == "1":
+            ddos()
+        elif action == "2":
+            ping()
+        elif action == "3":
+            encrypt()
+        elif action == "99":
+            confirm = input("Do you want to exit? y/n: ")
+            if confirm.lower() == "y":
+                exit()
+            else:
+                main()
         else:
-            main()
-    else:
-        print(f"{bcolors.WARNING}Invalid{bcolors.ENDC}")
-        time.sleep(1)
-        main()
+            mainask()
+    mainask()
 main()
